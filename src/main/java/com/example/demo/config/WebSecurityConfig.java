@@ -37,6 +37,7 @@ public class WebSecurityConfig
         return http.build();
     }
 
+    /*
     @Bean
     public InMemoryUserDetailsManager userDetailsService() {
         UserDetails user1 = User.withUsername("user1")
@@ -53,6 +54,7 @@ public class WebSecurityConfig
             .build();
         return new InMemoryUserDetailsManager(user1, user2, admin);
     }
+    */
 
     //フォームの値と比較するDBから取得したパスワードは暗号化されているのでフォームの値も暗号化するために利用
     @Bean
