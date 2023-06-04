@@ -34,25 +34,6 @@ public class WebSecurityConfig
         return http.build();
     }
 
-    /*
-    @Bean
-    public InMemoryUserDetailsManager userDetailsService() {
-        UserDetails user1 = User.withUsername("user1")
-            .password(passwordEncoder().encode("user1Pass"))
-            .roles("USER")
-            .build();
-        UserDetails user2 = User.withUsername("user2")
-            .password(passwordEncoder().encode("user2Pass"))
-            .roles("USER")
-            .build();
-        UserDetails admin = User.withUsername("admin")
-            .password(passwordEncoder().encode("adminPass"))
-            .roles("ADMIN")
-            .build();
-        return new InMemoryUserDetailsManager(user1, user2, admin);
-    }
-    */
-
     //フォームの値と比較するDBから取得したパスワードは暗号化されているのでフォームの値も暗号化するために利用
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
