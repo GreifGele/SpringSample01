@@ -1,7 +1,5 @@
 package com.example.demo.service;
 
-import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -22,13 +20,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         try{
-            Optional<UserEntity> entity = userRepository.findById(username);
-            String pass = webSecurityConfig.passwordEncoder().encode(entity.get().getPassword());
-            int type = entity.get().getType();
+            UserEntity entity = userRepository.findById(username).get();
+            String pass = webSecurityConfig.passwordEncoder().encode(entity.getPassword());
+            entity.setPassword(pass);
+            entity.CreateAuthorityList();
             // 認可があればここで設定できる
             // org.springframework.security.core.userdetails.Userにして返却する
             // パスワードエンコーダを利用してパスワードはエンコードをかける
-            return new UserEntity(entity.get().getUsername(), pass, type == 0 ? "USER" : "ADMIN");
+            return entity;
         }catch (Exception e) {
             throw new UsernameNotFoundException("ユーザーが見つかりません");
         }

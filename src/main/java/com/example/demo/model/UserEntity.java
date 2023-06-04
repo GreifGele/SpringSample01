@@ -45,13 +45,9 @@ public class UserEntity extends CommonEntity implements UserDetails
 	private boolean accountNonExpired = true;
 
 	public UserEntity() {
-		this.authorities = AuthorityUtils.createAuthorityList("USER");
 	}
 
-	public UserEntity(String username, String password, String authority) {
-		this();
-		this.username = username;
-		this.password = password;
-		this.authorities = AuthorityUtils.createAuthorityList(authority);
+	public void CreateAuthorityList() {
+		this.authorities = AuthorityUtils.createAuthorityList(this.type == 0 ? "USER" : "ADMIN");
 	}
 }
