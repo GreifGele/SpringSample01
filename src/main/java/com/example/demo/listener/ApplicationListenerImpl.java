@@ -14,7 +14,7 @@ public class ApplicationListenerImpl implements ApplicationListener<Authenticati
     public void onApplicationEvent(AuthenticationFailureBadCredentialsEvent event) {
         Object userName = event.getAuthentication().getPrincipal();
         Object credentials = event.getAuthentication().getCredentials();
-        LOG.debug("Failed login using USERNAME [" + userName + "]");
-        LOG.debug("Failed login using PASSWORD [" + credentials + "]");
+        LOG.info("Failed login using USERNAME [" + userName + "]");
+        LOG.info("Failed login using PASSWORD [" + credentials + "]");
     }
 }
