@@ -11,6 +11,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 import com.example.demo.handler.AuthFailureHandlerImpl;
 import com.example.demo.handler.AuthSuccessHandlerImpl;
+import com.example.demo.handler.InvalidSessionStrategyImpl;
 
 @Configuration
 @EnableWebSecurity
@@ -34,6 +35,9 @@ public class WebSecurityConfig
                 .requestMatchers("/general").hasRole("GENERAL")
                 .requestMatchers("/admin").hasRole("ADMIN")
                 .anyRequest().authenticated()
+        ).sessionManagement(ses -> ses
+                .sessionAuthenticationFailureHandler(new AuthFailureHandlerImpl())
+                .invalidSessionStrategy(new InvalidSessionStrategyImpl())
         );
         return http.build();
     }
