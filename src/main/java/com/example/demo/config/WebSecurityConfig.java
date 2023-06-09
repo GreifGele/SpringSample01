@@ -9,6 +9,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.example.demo.handler.AuthFailureHandlerImpl;
+import com.example.demo.handler.AuthSuccessHandlerImpl;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -16,11 +19,12 @@ public class WebSecurityConfig
 {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.formLogin(login -> login
+        http.csrf(csrf -> csrf.disable()
+        ).formLogin(login -> login
                 .loginProcessingUrl("/login_proc")
                 .loginPage("/login")
-                .defaultSuccessUrl("/hello")
-                .failureUrl("/login?error")
+                .failureHandler(new AuthFailureHandlerImpl())
+                .successHandler(new AuthSuccessHandlerImpl())
                 .permitAll()
         ).logout(logout -> logout
                 .logoutSuccessUrl("/")
