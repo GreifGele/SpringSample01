@@ -9,6 +9,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.example.demo.handler.AccessDeniedHandlerImpl;
+import com.example.demo.handler.AuthEntryPointImpl;
 import com.example.demo.handler.AuthFailureHandlerImpl;
 import com.example.demo.handler.AuthSuccessHandlerImpl;
 import com.example.demo.handler.InvalidSessionStrategyImpl;
@@ -31,13 +33,17 @@ public class WebSecurityConfig
                 .logoutSuccessUrl("/")
         ).authorizeHttpRequests(authz -> authz
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .requestMatchers("/").permitAll()
                 .requestMatchers("/general").hasRole("GENERAL")
                 .requestMatchers("/admin").hasRole("ADMIN")
                 .anyRequest().authenticated()
         ).sessionManagement(ses -> ses
                 .sessionAuthenticationFailureHandler(new AuthFailureHandlerImpl())
+                // セッション切れ時のストラテジ実装
                 .invalidSessionStrategy(new InvalidSessionStrategyImpl())
+        ).exceptionHandling(ex -> ex
+                .accessDeniedHandler(new AccessDeniedHandlerImpl())
+                // 未認証ユーザに401返却
+                .authenticationEntryPoint(new AuthEntryPointImpl())
         );
         return http.build();
     }
