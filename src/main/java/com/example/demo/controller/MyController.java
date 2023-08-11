@@ -34,7 +34,9 @@ public class MyController {
         TestDto testDto = TestDto.builder().id("id1").name("name1").age(29).build();
         List<UserEntity> list = userRepository.findAll();
         HogeDto hogeDto = HogeDto.builder().hoge("hoge").fuga("fuga").foo(105).list(list).build();
-        TotalDto totalDto = TotalDto.builder().mode("mode").type("type").testDto(testDto).hogeDto(hogeDto).build();
+        TotalDto totalDto = TotalDto.builder()
+            .mode("mode").type("type")
+            .testDto(testDto).hogeDto(hogeDto).build();
         model.addAttribute("totalDto", totalDto);
         return "test";
     }
@@ -50,5 +52,24 @@ public class MyController {
         model.addAttribute("totalDto", totalDto);
         return "test";
     }
-    
+
+    @PostMapping("/posttest2")
+    public String postTest2(
+        @Validated @ModelAttribute TestDto testDto,
+        String mode,
+        String type,
+        @Validated @ModelAttribute HogeDto hogeDto,
+        BindingResult result, Model model) throws Exception {
+        log.info(result.toString());
+
+        if (result.hasErrors()) {
+            log.info(String.join(", ", result.getAllErrors().stream().map(e -> e.getDefaultMessage()).toList()));
+        }
+
+        TotalDto totalDto = TotalDto.builder()
+            .mode(mode).type(type)
+            .testDto(testDto).hogeDto(hogeDto).build();
+        model.addAttribute("totalDto", totalDto);
+        return "test";
+    }
 }

@@ -34,7 +34,8 @@ public class MyControllerTest {
     @WithMockUser(username="admin", password="password")
 	void posttest() throws Exception {
         UserEntity ue = UserEntity.builder().username("username").password("password").type(1).build();
-        TotalDto totalDto = TotalDto.builder().mode("mode").type("type")
+        TotalDto totalDto = TotalDto.builder()
+            .mode("mode").type("type")
             .testDto(TestDto.builder().id("id").name("name").age(19).build())
             .hogeDto(HogeDto.builder().hoge("hoge").fuga("fuga").foo(10)
                 .list(List.of(ue)).build())
@@ -43,6 +44,24 @@ public class MyControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.post("/web/posttest")
             .flashAttr("totalDto", totalDto)
         );
+	}
 
+   	@Test
+    @WithMockUser(username="admin", password="password")
+	void posttest2() throws Exception {
+        UserEntity ue = UserEntity.builder().username("username").password("password").type(1).build();
+        TotalDto totalDto = TotalDto.builder()
+            //.mode("mode").type("type")
+            .testDto(TestDto.builder().id("id").name("name").age(19).build())
+            .hogeDto(HogeDto.builder().hoge("hoge").fuga("fuga").foo(10)
+                .list(List.of(ue)).build())
+            .build();
+        mockMvc = MockMvcBuilders.standaloneSetup(myController).build();
+        mockMvc.perform(MockMvcRequestBuilders.post("/web/posttest2")
+            .flashAttr("testDto", totalDto.getTestDto())
+            .flashAttr("hogeDto", totalDto.getHogeDto())
+            .param("mode", "mode")
+            .param("type", "type")
+        );
 	}
 }
