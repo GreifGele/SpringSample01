@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Getting Started: Handling Form Submission</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <h1>Form</h1>
+    <form action="#" th:action="@{/web/posttest}" th:object="${totalDto}" method="post">
+      <p>mode: <input type="text" th:field="*{mode}" /></p>
+      <p>type: <input type="text" th:field="*{type}" /></p>
+      <p>testDto.id: <input type="text" th:field="*{testDto.id}" /></p>
+      <p>testDto.name: <input type="text" th:field="*{testDto.name}" /></p>
+      <p>testDto.age: <input type="text" th:field="*{testDto.age}" /></p>
+      <p>hogeDto.hoge: <input type="text" th:field="*{hogeDto.hoge}" /></p>
+      <p>hogeDto.fuga: <input type="text" th:field="*{hogeDto.fuga}" /></p>
+      <p>hogeDto.foo: <input type="text" th:field="*{hogeDto.foo}" /></p>
+      <table>
+        <thead>
+            <th>username</th>
+            <th>password</th>
+            <th>type</th>
+        </thead>
+        <tbody>
+            <tr th:each="elem, stat : *{hogeDto.list}">
+                <td><input type="text" th:field="*{hogeDto.list[__${stat.index}__].username}" /></td>
+                <td><input type="text" th:field="*{hogeDto.list[__${stat.index}__].password}" /></td>
+                <td><input type="text" th:field="*{hogeDto.list[__${stat.index}__].type}" /></td>
+            </tr>
+        </tbody>
+      </table>
+      <p><input type="submit" value="Submit" /></p>
+    </form>
+</body>
+</html>

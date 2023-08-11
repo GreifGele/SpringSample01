@@ -1,25 +1,26 @@
 package com.example.demo.model;
 
-import org.hibernate.validator.constraints.Range;
-
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder(toBuilder = true)
-public class TestDto {
-
+public class TotalDto {
     @NotBlank
-    String id;
-
+    String mode;
     @NotBlank
-    String name;
+    String type;
 
-    @Range(min = 10, max = 30)
-    int age;
+    @Valid
+    TestDto testDto;
+    @Valid
+    HogeDto hogeDto;
+    
 }
